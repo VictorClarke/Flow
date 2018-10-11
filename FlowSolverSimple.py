@@ -113,22 +113,19 @@ class MazeState(object):
         if move == 'right':
             return MazeState(self.row, self.column+1)
 
-    # These methods make equivalent states be recognized as == (similar to say ".equals()")
-    def __hash__(self):         # hash method; whenever you do equals and not-equals you have to include a hash method
+    def __hash__(self):         
         return hash((self.row, self.column))
 
-    def __eq__(self, other):    # (similar to say ".equals()")
+    def __eq__(self, other):    
         return self.row == other.row and self.column == other.column
 
-    def __ne__(self, other):    # like saying is opposite
-        return not self == other        # But you cant say != bc it would be circular
+    def __ne__(self, other):    
+        return not self == other       
 
 
 
 class SimpleSearchAgent(object):
     def plan(self, start, goal):
-
-        # create an empty dictionary
         plan = dict()
         plan[start] = list()
 
@@ -141,7 +138,7 @@ class SimpleSearchAgent(object):
                 child = parent.neighbor(move)
 
                 if child not in plan:
-                    plan[child] = plan[parent] + [move]     # python adds lists together into one list and creates a copy automatically
+                    plan[child] = plan[parent] + [move]     
 
                     frontier.append(child)
                     if child == goal:
