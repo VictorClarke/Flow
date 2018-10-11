@@ -83,7 +83,6 @@ class Puzzle(object):
         if location.column-1 in self:
             count += 1
         return count
-    # NEED TO REMEMBER TO ACCOUNT SELF.LOCATIONS AS PART OF BORDER UNLESS COLOR=GOAL
 
     def secondSolvePuzzle(self):
         global maze
@@ -134,7 +133,6 @@ class Puzzle(object):
         for move in moves:
             begin = begin.neighbor(move)
             maze[begin.row][begin.column] = color
-            # FIX SO THAT EACH MOVE IS CHECKED
 
     def bottleneck(self, color, location):
         pass
@@ -148,7 +146,7 @@ class Puzzle(object):
 
 class MazeState(object):
     # Set up a location within the maze layout.
-    def __init__(self, row, column):    # Constructor
+    def __init__(self, row, column):    
         self.row = row
         self.column = column
 
@@ -186,16 +184,14 @@ class MazeState(object):
             return MazeState(self.row, self.column+1)
 
 
-    # These methods make equivalent states be recognized as == (similar to say ".equals()")
-    def __hash__(self):         # hash method; whenever you do equals and not-equals you have to include a hash method
+    def __hash__(self):         
         return hash((self.row, self.column))
 
-    def __eq__(self, other):    # (similar to say ".equals()")
+    def __eq__(self, other):    
         return self.row == other.row and self.column == other.column
 
-    def __ne__(self, other):    # like saying is opposite
-        return not self == other        # But you cant say != bc it would be circular
-
+    def __ne__(self, other):   
+        return not self == other        
 
     #define a less than method here for the case where states have the same heurisitic value
     def __lt__(self, other):
@@ -207,10 +203,7 @@ class MazeState(object):
 
 
 class SimpleSearchAgent(object):
-    # pseudo code from notebook implemented
     def plan(self, start, goal):
-
-        # create an empty dictionary
         plan = dict()
         plan[start] = list()
 
@@ -223,7 +216,7 @@ class SimpleSearchAgent(object):
                 child = parent.neighbor(move)
 
                 if child not in plan:
-                    plan[child] = plan[parent] + [move]     # python adds lists together into one list and creates a copy automatically
+                    plan[child] = plan[parent] + [move]     
 
                     frontier.append(child)
                     if child == goal:
@@ -254,7 +247,6 @@ class HeuristicSearchAgent(object):
         plan = dict()
         plan[start] = list()
 
-        # For a regular queue we used a deque; for priority queue we're using heapq
         frontier = list()
         # heappush(frontier, (priority, item))
         heappush(frontier, (start.distance(goal), start))
